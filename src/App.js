@@ -12,24 +12,26 @@ import {
 import RouteWithProps from './routeWithProps'
 import Add from './Add';
 import habit from './habitClass.js'
-
 export default class mainPage extends Component {
   constructor(props) {
     super(props);
     this.createCards = this.createCards.bind(this);
-    //this.state = this.state.bind(this);
+    this.addHabit = this.addHabit.bind(this);
 
   }
   state = { activeItem: 'home', habits:[]}
   addHabit(name, tag) {
     var newHabits = this.state.habits
-    this.setState(
-      newHabits.push({
-        name: name,
-        tag: tag,
-        streak: 0,
-        maxstreak: 0
-      }));
+    newHabits.push({
+      name: name,
+      tag: tag,
+      streak: 0,
+      maxstreak: 0
+    })
+    this.setState({
+      habits: newHabits
+    });
+    console.log(this.state.habits)
   }
   handleItemClick = (e, { name }) => {
     console.log('The link was clicked.');
@@ -40,14 +42,14 @@ export default class mainPage extends Component {
   createCards = () => {
     let cards = []
     // Outer loop to create parent
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < this.state.habits.length; i++) {
       cards.push(
         <Grid.Column>
           <Card fluid 
             centered
-            header='Elliot Baker'
-            meta='Friend'
-            description='Elliot is a sound engineer living in Nashville who enjoys playing guitar and hanging with his cat.'
+            header={this.state.habits[i].name}
+            meta={this.state.habits[i].tag}
+            description={this.state.habits[i].streak}
           />
         </Grid.Column>)
     }
@@ -79,7 +81,7 @@ export default class mainPage extends Component {
           <div>
             
             <div>
-              <RouteWithProps path="/add" exact={true} component={Add} onSubmit = {this.addHabit.bind(this)} test={this.state.test}/>
+              <RouteWithProps path="/add" exact={true} component={Add} onSubmit = {this.addHabit}/>
               <Route path="/" exact={true} component={displayHabits} />
             </div>
           </div>

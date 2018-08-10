@@ -11,8 +11,15 @@ import habit from './habitClass.js'
 import {observer} from 'mobx-react';
 
 export default class Add extends Component {
-	onSubmit () {
-		this.props.appState.updateHabits();
+	constructor(props) {
+		super(props)
+		this.state = {name:"", tag:""}
+	}
+	nameChange = (e) => {
+	    this.setState({name: e.target.value});
+	}
+	tagChange = (e) => {
+	    this.setState({tag: e.target.value});
 	}
 	render() {
 	    return (
@@ -25,15 +32,19 @@ export default class Add extends Component {
 				<Form>
 				    <Form.Field>
 				      <label>New Habit Name</label>
-				      <input placeholder="Enter Habit Name Here" />
+				      <input value={this.state.name} 
+				      	placeholder="Enter Habit Name Here" 
+				      	onChange={this.nameChange.bind(this)}/>
 				    </Form.Field>
-				    <Form.Field label='Category' control='select'>
+				    <Form.Field value={this.state.tag} 
+				    	label='Category' control='select'
+				    	onChange={this.tagChange.bind(this)}>
 				      <option value='Exercise'>Exercise</option>
 				      <option value='Work'>Work</option>
 				      <option value='Food'>Food</option>
 				      <option value='Other'>Other</option>
 				    </Form.Field>
-				    <Button type='submit' onClick={this.onSubmit.bind(this)}>
+				    <Button type='submit' onClick={() => this.props.onSubmit(this.state.name, this.state.tag)}>
 				      Submit
 				    </Button>
 				</Form>
