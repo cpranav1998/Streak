@@ -45,7 +45,7 @@ export default class Add extends Component {
 				      <option value='Other'>Other</option>
 				    </Form.Field>
 				    <Button type='submit' onClick={() => this.props.onSubmit(this.state.name, this.state.tag)}>
-				      Submit
+				      <Link to="/">submit</Link>
 				    </Button>
 				</Form>
 			</div>
